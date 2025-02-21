@@ -9,6 +9,8 @@ import sitemap from "@astrojs/sitemap";
 
 import minifyHtmlSwc from "astro-minify-html-swc";
 
+import path from "node:path";
+
 import { SITE } from "@/lib/consts";
 
 // https://astro.build/config
@@ -17,6 +19,12 @@ export default defineConfig({
 
 	vite: {
 		plugins: [tailwindcss()],
+		resolve: {
+			alias: {
+				"@": path.resolve(__dirname, "./src"),
+				"@node_modules": path.resolve(__dirname, "./node_modules"),
+			},
+		},
 	},
 
 	integrations: [icon(), sitemap(), minifyHtmlSwc()],

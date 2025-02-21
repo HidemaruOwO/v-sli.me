@@ -1,11 +1,66 @@
 ---
-import Welcome from '@/components/Welcome.astro';
-import Layout from '@/layouts/Layout.astro';
+import Layout from "@/layouts/Layout.astro";
+import SubsetFont from "@/components/SubsetFont.astro";
+import { Image } from "astro:assets";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import mplus from "@japanese-monospaced-fonts/rounded-m-plus-1m/RoundedMPlus1m-bold.ttf";
+
+import icon from "@/assets/icon.png";
+import background from "@/assets/background.svg";
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+	title="ぷよすきー"
+	description="ぷよすきーはひでまるが送るWebサービスです。ひでまるの成果物やMisskeyなどホストしてます。"
+	><div id="container">
+		<img
+			id="background"
+			src={background.src}
+			alt="background"
+			fetchpriority="high"
+		/>
+		<main class="flex flex-col items-start justify-center p-4">
+			<div class="text-center items-center justify-center mx-auto">
+				<Image
+					src={icon}
+					alt="my icon"
+					width={140}
+					height={140}
+					class="mx-auto"
+				/>
+				<h1 class="text-4xl mt-6">
+					<SubsetFont font={mplus} text="ぷよすきー" />
+				</h1>
+				<p class="mt-6"></p>
+
+				<p class="text-gray-500 dark:text-gray-400">
+					A user-like web service by HidemaruOwO.
+					<a
+						href="https://hide0.net/services"
+						class="inline-flex items-center font-medium text-[#0f83fd] dark:text-blue-500 hover:underline"
+					>
+						View services
+						<svg
+							class="w-4 h-4 ms-2 rtl:rotate-180"
+							aria-hidden="true"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 14 10"
+						>
+							<path
+								stroke="currentColor"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M1 5h12m0 0L9 1m4 4L9 9"></path>
+						</svg>
+					</a>
+				</p>
+
+				<section id="links"></section>
+			</div>
+		</main>
+	</div>
+
+	<style></style>
 </Layout>

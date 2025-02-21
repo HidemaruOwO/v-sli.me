@@ -1,0 +1,46 @@
+---
+import { randomUUID } from "node:crypto";
+import { readFileSync } from "node:fs";
+import subsetFont from "subset-font";
+
+export interface Props {
+	font: string;
+	text: string;
+	class?: string;
+}
+
+const props = Astro.props;
+const fontFamily = "SubsetFont-" + randomUUID();
+
+let font = "";
+let css = "";
+
+try {
+	const path = new URL(
+		props.font.startsWith("/") ? props.font.slice(1) : props.font,
+		`file://${process.cwd()}${import.meta.env.DEV ? "/" : "/dist/"}`,
+	);
+	font = (
+		await subsetFont(readFileSync(path), props.text, { targetFormat: "woff2" })
+	).toString("base64");
+	css = `
+    @font-face {
+      font-family: ${fontFamily};
+      src: url("data:application/font-woff2;charset=utf-8;base64,${font}") format("woff2");
+    }
+  `;
+} catch (err) {
+	throw new Error("Failed to generate subset font: " + err.message);
+}
+---
+
+<style set:html={css}></style>
+{
+	props.class ? (
+		<div class={props.class} style={`font-family: ${fontFamily};`}>
+			{props.text}
+		</div>
+	) : (
+		<div style={`font-family: ${fontFamily};`}>{props.text}</div>
+	)
+}
